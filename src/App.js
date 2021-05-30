@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from "react";
+import { Route, Switch } from "react-router-dom";
 
-function App() {
+//context
+import { NoteContext } from "./context/NoteProvider";
+
+//pages
+import Home from "./pages/Home";
+import View from "./pages/View";
+
+const App = () => {
+  const { isModalOpen, setIsModalOpen } = useContext(NoteContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={isModalOpen ? "overflow-hidden" : ""}>
+      <div
+        className={`absolute w-full h-full bg-gray-200 opacity-60 ${
+          isModalOpen ? "block" : " hidden"
+        }`}
+      ></div>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/:listName" component={View} />
+      </Switch>
     </div>
   );
-}
+};
 
 export default App;
